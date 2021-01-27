@@ -237,6 +237,7 @@ class Control(object):
                         sys.stderr.write("using too much memory - exiting")
                         sys.exit(1)
             except TypeError as e:
+                print("Read: ")
                 print(read_bytes)
                 raise (e)
 
