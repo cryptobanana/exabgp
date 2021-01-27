@@ -226,6 +226,7 @@ class Control(object):
 
         def consume(source):
             read_bytes = read[source](1024)
+
             try:
                 if not backlog[source] and b"\n" not in store[source]:
                     store[source] += read_bytes
@@ -239,7 +240,7 @@ class Control(object):
             except TypeError as e:
                 print("Read: ")
                 print(read_bytes)
-                raise (e)
+                raise Exception(read_bytes)
 
         reading = [standard_in, self.r_pipe]
 
