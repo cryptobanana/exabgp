@@ -225,22 +225,20 @@ class Control(object):
         }
 
         def consume(source):
-            read_bytes_foo = read[source](1024)
-            print(read_bytes_foo)
+            read_bytes = bytes(read[source](1024), "utf-8")
             try:
                 if not backlog[source] and b"\n" not in store[source]:
-                    store[source] += read_bytes_foo
+                    store[source] += read_bytes
                 else:
-                    backlog[source].append(read_bytes_foo)
+                    backlog[source].append(read_bytes)
                     # assuming a route takes 80 chars, 100 Mb is over 1Millions routes
                     # something is really wrong if it was not consummed
                     if len(backlog) > 100 * mb:
                         sys.stderr.write("using too much memory - exiting")
                         sys.exit(1)
             except TypeError as e:
-                print("Read: ")
-                print(read_bytes_foo)
-                raise Exception(read_bytes_foo)
+                sys.stderr.write(read_bytes)
+                raise Exception(read_bytes)
 
         reading = [standard_in, self.r_pipe]
 
