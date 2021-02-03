@@ -225,7 +225,8 @@ class Control(object):
         }
 
         def consume(source):
-            read_bytes = bytes(read[source](1024), "utf-8")
+            read_bytes = read[source](1024)
+            sys.stderr.write("reading: " + str(read_bytes))
             try:
                 if not backlog[source] and b"\n" not in store[source]:
                     store[source] += read_bytes
